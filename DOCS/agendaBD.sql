@@ -10,10 +10,11 @@ CREATE TABLE telefones(
 id SERIAL PRIMARY KEY,
 residencial VARCHAR(10),
 celular VARCHAR(10),
-id_contatos INTEGER REFERENCES contatos (id)
+id_contatos INTEGER REFERENCES contatos (id)ON DELETE CASCADE NOT NULL
 );
 
 drop table telefones cascade;
+
 INSERT INTO contatos (nome,endereco,email) values
 ('Renato Borba','Rua Pepino nº 315','renato@gmail.com');
 INSERT INTO contatos (nome,endereco,email) values
@@ -34,4 +35,7 @@ INSERT INTO telefones(residencial,celular,id_contatos) VALUES
 select * from telefones;
 
 
-select * from contatos c join telefones t on c.id=t.id_contatos;
+select * from contatos c join telefones t on c.id=t.id_contatos where nome like ('liza');
+
+
+delete from contatos where id = 1;
