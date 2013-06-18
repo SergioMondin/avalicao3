@@ -4,8 +4,6 @@ package com.agenda.view;
  * @author SLM
  */
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -16,11 +14,11 @@ public class Teste {
 
 	public static void main(String[] args) throws SQLException {
 
-		// CONTATO C1 = NEW CONTATO();
-		// TELEFONE T1 = NEW TELEFONE();
-
-		// T1.SETRESIDENCIAL("666666666");
-		// T1.SETCELULAR("999999999");
+//		// CONTATO C1 = NEW CONTATO();
+//		// TELEFONE T1 = NEW TELEFONE();
+//
+//		// T1.SETRESIDENCIAL("666666666");
+//		// T1.SETCELULAR("999999999");
 		// // C1.SETID(5);
 		// C1.SETNOME("BART");
 		// C1.SETENDERECO("RUA T 66");

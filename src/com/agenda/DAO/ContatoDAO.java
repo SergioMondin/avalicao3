@@ -53,7 +53,7 @@ public class ContatoDAO {
 			}
 
 			System.out.println(id);
-			System.out.println("contato inserido com sucesso!");
+		
 
 		} catch (SQLException e) {
 			System.out.println("erro" + e.getMessage());
@@ -92,7 +92,7 @@ public class ContatoDAO {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.getMessage();
+			e.printStackTrace();
 		} finally {
 			stmt.close();
 		}
@@ -116,7 +116,7 @@ public class ContatoDAO {
 			stmt.setInt(4, ct.getId());
 			// exucuta o codigo sql
 			stmt.execute();
-			System.out.println("contato alterado con sucesso");
+		
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -137,7 +137,7 @@ public class ContatoDAO {
 
 			stmt.setInt(1, ct.getId());
 			stmt.execute();
-			System.out.println("contato removido com sucesso");
+		
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

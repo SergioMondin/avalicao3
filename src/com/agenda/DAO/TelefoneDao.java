@@ -38,7 +38,7 @@ public class TelefoneDao {
 			ps.setLong(3, id);
 
 			ps.execute();
-			System.out.println("telefone adicionado com sucesso");
+		
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -62,7 +62,7 @@ public class TelefoneDao {
 			stmt.setInt(3, t.getId_contato());
 			// exucuta o codigo sql
 			stmt.execute();
-			System.out.println("telefone alterado con sucesso");
+
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

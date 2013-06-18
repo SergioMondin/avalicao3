@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -57,12 +58,12 @@ public class jTAgendaContatos extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					jTAgendaContatos frame = new jTAgendaContatos();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				// try {
+				jTAgendaContatos frame = new jTAgendaContatos();
+				frame.setVisible(true);
+				// } catch (Exception e) {
+				// e.getMessage();
+				// }
 			}
 		});
 	}
@@ -262,6 +263,14 @@ public class jTAgendaContatos extends JFrame {
 		btnSalvar.setBounds(131, 9, 100, 23);
 		panel_6.add(btnSalvar);
 
+		// SALVAR
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				salvar();
+			}
+		});
+
 		// EXCLUIR
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.setHorizontalTextPosition(SwingConstants.LEFT);
@@ -274,39 +283,12 @@ public class jTAgendaContatos extends JFrame {
 					listarContatos();
 				} catch (HeadlessException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					e1.getMessage();
 				}
 			}
 		});
 		btnExcluir.setBounds(351, 9, 100, 23);
 		panel_6.add(btnExcluir);
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				if (verificaDados()) {
-					Contato c1 = new Contato();
-					c1.setNome(tFNome.getText());
-					c1.setEndereco(tFEndereco.getText());
-					c1.setEmail(tFEmail.getText());
-
-					Telefone f1 = new Telefone();
-					f1.setResidencial(tFResidencial.getText());
-					f1.setCelular(tFCelular.getText());
-
-					try {
-						ContatoDAO cd = new ContatoDAO();
-						int id = cd.adicionaContato(c1);
-						TelefoneDao td = new TelefoneDao();
-						td.adicionaTelefone(f1, id);
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-				}
-				desabilitaDados();
-			}
-		});
 
 		JPanel panel_5 = new JPanel();
 		panel_5.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null,
@@ -323,35 +305,16 @@ public class jTAgendaContatos extends JFrame {
 		panel_5.add(panel_7);
 		panel_7.setLayout(null);
 
-		JPanel panel_8 = new JPanel();
-		panel_8.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null,
-				null, null));
-		panel_8.setBounds(28, 11, 518, 16);
-		panel_7.add(panel_8);
-		panel_8.setLayout(null);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		scrollPane.setBounds(10, 11, 555, 163);
+		panel_7.add(scrollPane);
 
-		JLabel lblNewLabel_6 = new JLabel("Nome");
-		lblNewLabel_6.setBounds(32, 1, 46, 14);
-		panel_8.add(lblNewLabel_6);
-
-		JLabel lblNewLabel_7 = new JLabel("Endere\u00E7o");
-		lblNewLabel_7.setBounds(130, 1, 71, 14);
-		panel_8.add(lblNewLabel_7);
-
-		JLabel lblNewLabel_8 = new JLabel("Email");
-		lblNewLabel_8.setBounds(238, 1, 46, 14);
-		panel_8.add(lblNewLabel_8);
-
-		JLabel lblNewLabel_9 = new JLabel("Residencial");
-		lblNewLabel_9.setBounds(325, 1, 78, 14);
-		panel_8.add(lblNewLabel_9);
-
-		JLabel lblNewLabel_10 = new JLabel("Celular");
-		lblNewLabel_10.setBounds(433, 1, 46, 14);
-		panel_8.add(lblNewLabel_10);
+		// scroll
 
 		// TABELA
 		table = new JTable();
+		scrollPane.setViewportView(table);
 		table.setFont(new Font("Arial", Font.PLAIN, 12));
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
@@ -364,10 +327,7 @@ public class jTAgendaContatos extends JFrame {
 				}
 			}
 		});
-		//
-		table.setBounds(28, 41, 518, 133);
 		table.setModel(tmContato);
-		panel_7.add(table);
 		desabilitaDados();
 	}
 
@@ -386,38 +346,45 @@ public class jTAgendaContatos extends JFrame {
 
 	// MÉTODO PARA ALTERAR CONTATO
 	private void alteraContato(JTable tabela) {
-		if (table.getSelectedRow() != -1) {
-			// pega o id da linha da tabela
-			int num = (contatos.get(tabela.getSelectedRow()).getId());
-			if (verificaDados())
-				try {
-					{
 
-						Contato c1 = new Contato();
-						Telefone t1 = new Telefone();
-						ContatoDAO cd = new ContatoDAO();
-						TelefoneDao td = new TelefoneDao();
-						t1.setResidencial(tFResidencial.getText());
-						t1.setCelular(tFCelular.getText());
+		int resp = JOptionPane.showConfirmDialog(this,
+				"Deseja realmente alterar este contato?", "Confirmação",
+				JOptionPane.YES_NO_OPTION);
+		if (resp == JOptionPane.YES_NO_OPTION) {
 
-						c1.setId(num);
-						t1.setId_contato(c1.getId());
-						System.out.println(c1.getId());
-						c1.setNome(tFNome.getText());
-						c1.setEndereco(tFEndereco.getText());
-						c1.setEmail(tFEmail.getText());
-						c1.setTelefone(t1);
+			if (table.getSelectedRow() != -1) {
+				// pega o id da linha da tabela
+				int num = (contatos.get(tabela.getSelectedRow()).getId());
+				if (verificaDados())
+					try {
+						{
 
-						cd.alteraContato(c1);
-						td.alteraTelefone(t1);
-						JOptionPane.showMessageDialog(null,
-								"Contato alterado com sucesso");
+							Contato c1 = new Contato();
+							Telefone t1 = new Telefone();
+							ContatoDAO cd = new ContatoDAO();
+							TelefoneDao td = new TelefoneDao();
+							t1.setResidencial(tFResidencial.getText());
+							t1.setCelular(tFCelular.getText());
 
+							c1.setId(num);
+							t1.setId_contato(c1.getId());
+							System.out.println(c1.getId());
+							c1.setNome(tFNome.getText());
+							c1.setEndereco(tFEndereco.getText());
+							c1.setEmail(tFEmail.getText());
+							c1.setTelefone(t1);
+
+							cd.alteraContato(c1);
+							td.alteraTelefone(t1);
+							JOptionPane.showMessageDialog(null,
+									"Contato alterado com sucesso");
+
+						}
+					} catch (HeadlessException | SQLException e) {
+						// TODO Auto-generated catch block
+						e.getMessage();
 					}
-				} catch (HeadlessException | SQLException e) {
-					// TODO Auto-generated catch block
-					e.getMessage();
-				}
+			}
 		}
 
 	}
@@ -515,5 +482,49 @@ public class jTAgendaContatos extends JFrame {
 		tFEmail.setEditable(true);
 		tFResidencial.setEditable(true);
 		tFCelular.setEditable(true);
+	}
+
+	// MÉTODO LIMPA TEXTFIELDS
+	public void limpaDados() {
+		tFNome.setText("");
+		tFEndereco.setText("");
+		tFEmail.setText("");
+		tFResidencial.setText("");
+		tFCelular.setText("");
+	}
+
+	public void salvar() {
+
+		int resp = JOptionPane.showConfirmDialog(this,
+				"Deseja realmente salvar este contato?", "Confirmação",
+				JOptionPane.YES_NO_OPTION);
+		if (resp == JOptionPane.YES_NO_OPTION) {
+
+			if (verificaDados()) {
+				Contato c1 = new Contato();
+				c1.setNome(tFNome.getText());
+				c1.setEndereco(tFEndereco.getText());
+				c1.setEmail(tFEmail.getText());
+
+				Telefone f1 = new Telefone();
+				f1.setResidencial(tFResidencial.getText());
+				f1.setCelular(tFCelular.getText());
+
+				try {
+					ContatoDAO cd = new ContatoDAO();
+					int id = cd.adicionaContato(c1);
+					TelefoneDao td = new TelefoneDao();
+					td.adicionaTelefone(f1, id);
+
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.getMessage();
+				}
+				limpaDados();
+				desabilitaDados();
+				listarContatos();
+			}
+
+		}
 	}
 }

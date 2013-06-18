@@ -19,14 +19,14 @@ public class CriaConexao {
 		// Carregando o Driver JDBC (do RDBMS PostgreSQL)
 		// DriverManager.registerDriver(new org.postgresql.Driver());
 
-		System.out.println("Conectando.....");
+
 		Properties p = new Properties();
 		try {
 			p.load(new FileInputStream("src/config/config.properties"));
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.getMessage();
 		}
 		String url = p.getProperty("jdbc.url");
 		return DriverManager.getConnection(url, p);
